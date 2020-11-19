@@ -1,0 +1,4 @@
+
+enum UrlRewriteEntityTypeEnum {
+    LOF_STORE_CREDIT
+}
