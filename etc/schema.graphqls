@@ -1,4 +1,71 @@
+# Landofcoder
+#
+# NOTICE OF LICENSE
+#
+# This source file is subject to the Landofcoder.com license that is
+# available through the world-wide-web at this URL:
+# https://landofcoder.com/LICENSE.txt
+#
+# DISCLAIMER
+#
+# Do not edit or add to this file if you wish to upgrade this extension to newer
+# version in the future.
+#
+# @category    Landofcoder
+# @package     Lof_StoreCreditGraphQl
+# @copyright   Copyright (c) Landofcoder (https://landofcoder.com/)
+# @license     https://landofcoder.com/LICENSE.txt
 
 enum UrlRewriteEntityTypeEnum {
     LOF_STORE_CREDIT
+}
+
+type Query {
+    lofRedeemCreditCode(
+        customerId: String! @doc(description: "Customer ID")
+        code: String! @doc(description: "Redeem Code")
+    ): String @resolver(class: "\\Lof\\StoreCreditGraphQl\\Model\\Resolver\\RedeemCreditCode") @doc(description: "Redeem Store Credit Code")
+    lofCustomerCreditBalance(
+        customerId: String! @doc(description: "Customer ID")
+    ): Float @resolver(class: "\\Lof\\StoreCreditGraphQl\\Model\\Resolver\\CustomerCreditBalance") @doc(description: "Get Customer Store Credit Balance")
+    lofCustomerCreditTransaction(
+        customerId: String! @doc(description: "Customer ID")
+        filters: CreditTransactionFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
+        pageSize: Int = 20 @doc(description: "Specifies the maximum number of results to return at once. This attribute is optional.")
+        currentPage: Int = 1 @doc(description: "Specifies which page of results to return. The default value is 1.")
+    ): CreditTransactionResult @resolver(class: "\\Lof\\StoreCreditGraphQl\\Model\\Resolver\\CustomerCreditTransaction") @doc(description: "Get Customer Store Credit Transaction")
+}
+
+type Mutation {
+    lofApplyCredit (
+        cart_id: String! @doc(description: "Masked Cart id")
+        creditAmount: Float! @doc(description: "Credit Amount")
+    ): [Float] @resolver(class: "\\Lof\\StoreCreditGraphQl\\Model\\Resolver\\SetStoreCredit") @doc(description:"Set store credit amount for shopping cart")
+    lofRemoveCredit (
+        cart_id: String! @doc(description: "Masked Cart id")
+    ): Boolean @resolver(class: "\\Lof\\StoreCreditGraphQl\\Model\\Resolver\\RemoveStoreCredit") @doc(description:"Remove store credit amount for shopping cart")
+}
+
+type CreditTransactionResult @doc(description: "A collection of Credit Transactions objects and pagination information.") {
+    items: [CreditTransaction] @doc(description: "A list of store credit transaction ories that match the filter criteria.")
+    page_info: SearchResultPageInfo @doc(description: "An object that includes the page_info and currentPage values specified in the query.")
+    total_count: Int @doc(description: "The total number of categories that match the criteria.")
+}
+
+type CreditTransaction @doc(description: "Store Credit Transaction defines the store credit transactions") {
+    created_at: String @doc(description: "Timestamp indicating when the account was created")
+    transaction_id: Int @deprecated(reason: "Transaction ID")
+    customer_id: Int @deprecated(reason: "Customer ID")
+    type: String @doc(description: "Transaction type: redeem_credit_code, spend_credit,...")
+    amount: Float @doc(description: "Transaction Amount")
+    balance: Float @doc(description: "Transaction Balance")
+    description: String @doc(description: "Transaction Description")
+}
+
+input CreditTransactionFilterInput  @doc(description: "CreditTransactionFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for.")
+{
+    transaction_id: FilterEqualTypeInput @doc(description: "Filter by transaction ID that uniquely identifies the transaction.")
+    customer_id: FilterEqualTypeInput @doc(description: "Filter by customer ID.")
+    type: FilterMatchTypeInput @doc(description: "Filter by transaction type")
+    created_at: FilterMatchTypeInput @doc(description: "Filter by created at.")
 }
