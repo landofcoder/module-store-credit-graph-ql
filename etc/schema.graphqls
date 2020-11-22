@@ -16,20 +16,16 @@
 # @copyright   Copyright (c) Landofcoder (https://landofcoder.com/)
 # @license     https://landofcoder.com/LICENSE.txt
 
-enum UrlRewriteEntityTypeEnum {
-    LOF_STORE_CREDIT
-}
-
 type Query {
     lofRedeemCreditCode(
-        customerId: String! @doc(description: "Customer ID")
+        customerId: String @doc(description: "Customer ID")
         code: String! @doc(description: "Redeem Code")
     ): String @resolver(class: "\\Lof\\StoreCreditGraphQl\\Model\\Resolver\\RedeemCreditCode") @doc(description: "Redeem Store Credit Code")
     lofCustomerCreditBalance(
-        customerId: String! @doc(description: "Customer ID")
+        customerId: String @doc(description: "Customer ID")
     ): Float @resolver(class: "\\Lof\\StoreCreditGraphQl\\Model\\Resolver\\CustomerCreditBalance") @doc(description: "Get Customer Store Credit Balance")
     lofCustomerCreditTransaction(
-        customerId: String! @doc(description: "Customer ID")
+        customerId: String @doc(description: "Customer ID")
         filters: CreditTransactionFilterInput @doc(description: "Identifies which Category filter inputs to search for and return.")
         pageSize: Int = 20 @doc(description: "Specifies the maximum number of results to return at once. This attribute is optional.")
         currentPage: Int = 1 @doc(description: "Specifies which page of results to return. The default value is 1.")
