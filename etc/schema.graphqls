@@ -36,7 +36,7 @@ type Mutation {
     lofApplyCredit (
         cart_id: String! @doc(description: "Masked Cart id")
         creditAmount: Float! @doc(description: "Credit Amount")
-    ): [Float] @resolver(class: "\\Lof\\StoreCreditGraphQl\\Model\\Resolver\\SetStoreCredit") @doc(description:"Set store credit amount for shopping cart")
+    ): ApplyCreditResult @resolver(class: "\\Lof\\StoreCreditGraphQl\\Model\\Resolver\\SetStoreCredit") @doc(description:"Set store credit amount for shopping cart")
     lofRemoveCredit (
         cart_id: String! @doc(description: "Masked Cart id")
     ): Boolean @resolver(class: "\\Lof\\StoreCreditGraphQl\\Model\\Resolver\\RemoveStoreCredit") @doc(description:"Remove store credit amount for shopping cart")
@@ -58,6 +58,11 @@ type CreditTransaction @doc(description: "Store Credit Transaction defines the s
     description: String @doc(description: "Transaction Description")
 }
 
+type ApplyCreditResult  @doc(description: "return data after apply store credit amount to cart.") {
+    base_credit_amount: Float @doc(description: "base credit amount on the quote.")
+    credit_amount: Float @doc(description: "credit amount on the quote.")
+    credit_price_amount: Float @doc(description: "credit price amount which was converted to price amount by curreny on the quote.")
+}
 input CreditTransactionFilterInput  @doc(description: "CreditTransactionFilterInput defines the filters to be used in the search. A filter contains at least one attribute, a comparison operator, and the value that is being searched for.")
 {
     transaction_id: FilterEqualTypeInput @doc(description: "Filter by transaction ID that uniquely identifies the transaction.")

@@ -59,7 +59,11 @@ class SetStoreCredit implements ResolverInterface
         }
         $this->validateArgs($args);
         $result = $this->_creditManagement->set($this->getCardId($args, $context), (float)$args['creditAmount']);
-        return (bool)$result;
+        return [
+            "base_credit_amount" => (float)$result[0],
+            "credit_amount" => (float)$result[1],
+            "credit_price_amount" => (float)$result[2]
+        ];
     }
     /**
      * @param array $args
