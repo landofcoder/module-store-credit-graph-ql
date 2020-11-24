@@ -60,11 +60,6 @@ class CustomerCreditTransaction implements ResolverInterface
      */
     private $searchCriteriaBuilder;
 
-    /**
-     * @param ScopeConfigInterface $scopeConfig
-     * @param CreditManagementInterface $creditManagement
-     * @param Builder $searchCriteriaBuilder
-     */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         CreditManagementInterface $creditManagement,
