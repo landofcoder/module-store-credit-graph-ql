@@ -81,6 +81,7 @@ class CustomerCreditTransaction implements ResolverInterface
         if(!$customer_id){
             throw new GraphQlInputException(__('Required logged in customer account.'));
         }
+        $args["customer_id"] = $customer_id;
         $store = $context->getExtensionAttributes()->getStore();
 
         if (isset($args['currentPage']) && $args['currentPage'] < 1) {
@@ -113,13 +114,14 @@ class CustomerCreditTransaction implements ResolverInterface
     {
         $criteria[Filter::ARGUMENT_NAME] = $this->formatMatchFilters($criteria['filters'], $store);
         $criteria[Sort::ARGUMENT_NAME]['transaction_id'] = ['DESC'];
+        
         $searchCriteria = $this->searchCriteriaBuilder->build('lofCustomerCreditTransaction', $criteria);
         $pageSize = $criteria['pageSize'] ?? 20;
         $currentPage = $criteria['currentPage'] ?? 1;
         $searchCriteria->setPageSize($pageSize)->setCurrentPage($currentPage);
-
-        $transactions = $this->creditManagement->getCreditBalanceByCustId($searchCriteria);
-
+        
+        $transactions = $this->creditManagement->getCreditTransactionsByCustId($criteria["customer_id"], $searchCriteria);
+        
         $totalPages = 0;
         if ($transactions->getTotalCount() > 0 && $searchCriteria->getPageSize() > 0) {
             $totalPages = ceil($transactions->getTotalCount() / $searchCriteria->getPageSize());
