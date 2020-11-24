@@ -27,6 +27,7 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Lof\StoreCredit\Api\CreditManagementInterface;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Lof\StoreCreditGraphQl\Model\Data\MaskedCart;
 
 /**
@@ -57,7 +58,7 @@ class SetStoreCredit implements ResolverInterface
             $args['customer_id'] = (int)$customer_id;
         }
         $this->validateArgs($args);
-        $result = $this->_creditManagement->set($this->getCardId($args['input'], $context), (float)$args['input']['creditAmount']);
+        $result = $this->_creditManagement->set($this->getCardId($args, $context), (float)$args['creditAmount']);
         return (bool)$result;
     }
     /**
@@ -67,15 +68,11 @@ class SetStoreCredit implements ResolverInterface
      */
     public function validateArgs($args)
     {
-        if (!isset($args['input'])) {
-            throw new GraphQlInputException(__('Required parameter "input" is missing'));
-        }
-        
-        if (!isset($args['input']['cart_id'])) {
+        if (!isset($args['cart_id'])) {
             throw new GraphQlInputException(__('Required parameter "cart_id" is missing'));
         }
 
-        if (!isset($args['input']['creditAmount'])) {
+        if (!isset($args['creditAmount'])) {
             throw new GraphQlInputException(__('Required parameter "creditAmount" is missing'));
         }
     }

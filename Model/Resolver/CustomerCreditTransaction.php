@@ -34,6 +34,8 @@ use Magento\Framework\GraphQl\Query\Resolver\Argument\SearchCriteria\ArgumentApp
 use Magento\Search\Model\Query;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\ScopeInterface;
+use Lof\StoreCredit\Api\CreditManagementInterface;
+use Magento\Framework\GraphQl\Query\Resolver\Argument\SearchCriteria\Builder;
 /**
  * Class GiftByProductSku
  * @package Lof\StoreCreditGraphQl\Model\Resolver

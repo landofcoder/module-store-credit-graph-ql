@@ -28,7 +28,6 @@ use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
 use Magento\Quote\Model\Quote;
-use Magento\QuoteGraphQl\Model\Cart\GetCartForUser;
 use Lof\StoreCredit\Helper\Data as HelperData;
 /**
  * Class MaskedCart
@@ -37,7 +36,7 @@ use Lof\StoreCredit\Helper\Data as HelperData;
 class MaskedCart
 {
     /**
-     * @var GetCartForUser
+     * @var GetCartForCustomer
      */
     protected $_getCartForUser;
     
@@ -48,11 +47,11 @@ class MaskedCart
     
     /**
      * MaskedCart constructor.
-     * @param GetCartForUser $getCartForUser
+     * @param GetCartForCustomer $getCartForUser
      * @param HelperData $helperData
      */
     public function __construct(
-        GetCartForUser $getCartForUser,
+        GetCartForCustomer $getCartForUser,
         HelperData $helperData
     ) {
         $this->_getCartForUser = $getCartForUser;

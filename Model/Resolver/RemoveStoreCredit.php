@@ -26,6 +26,7 @@ namespace Lof\StoreCreditGraphQl\Model\Resolver;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Lof\StoreCredit\Api\CreditManagementInterface;
 use Lof\StoreCreditGraphQl\Model\Data\MaskedCart;
 
@@ -55,7 +56,7 @@ class RemoveStoreCredit implements ResolverInterface
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
         $this->validateArgs($args);
-        $result = $this->_creditManagement->remove($this->getCardId($args['input'], $context));
+        $result = $this->_creditManagement->remove($this->getCardId($args, $context));
         return (bool)$result;
     }
 
@@ -66,11 +67,7 @@ class RemoveStoreCredit implements ResolverInterface
      */
     public function validateArgs($args)
     {
-        if (!isset($args['input'])) {
-            throw new GraphQlInputException(__('Required parameter "input" is missing'));
-        }
-        
-        if (!isset($args['input']['cart_id'])) {
+        if (!isset($args['cart_id'])) {
             throw new GraphQlInputException(__('Required parameter "cart_id" is missing'));
         }
     }
