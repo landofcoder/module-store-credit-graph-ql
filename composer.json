@@ -1,0 +1,27 @@
+{
+    "name": "landofcoder/module-store-credit-graph-ql",
+    "description": "Lof Store Credit Graph QL Magento 2 Extension",
+    "require": {
+        "landofcoder/module-all" : "1.*",
+        "landofcoder/module-store-credit" : "*"
+    },
+    "type": "magento2-module",
+    "version": "1.0.1",
+    "authors": [
+        {
+            "name": "Landofcoder",
+            "email": "landofcoder@gmail.com",
+            "role": "Magento 2 Lof Store Credit Graph Ql Extension"
+        }
+    ],
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [ "registration.php" ],
+        "psr-4": {
+            "Lof\\StoreCreditGraphQl\\": ""
+        }
+    }
+}
